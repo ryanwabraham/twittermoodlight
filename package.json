@@ -1,0 +1,12 @@
+{
+  "name": "twitter-mood-light",
+  "version": "0.0.1",
+  "description": "dependencies for twitter mood light",
+  "license" : "MIT",
+  "dependencies": {
+    "twit": "*",
+    "request": "^2.67.0",
+    "socket.io": "^1.3.6",
+    "node-static": "^0.7.7"
+  }
+}

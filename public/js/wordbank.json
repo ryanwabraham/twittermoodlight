@@ -1,0 +1,35 @@
+{
+    "happyWords" : [
+        "amazing", "amusing", "amused", "astonishing", "awesome", "beautiful", "brilliant", "cheerful", "cloud 9", "delightful", "delighted", "ecstatic",
+        "enjoy", "excellent", "excited", "fabulous", "fantastic", "fortunate", "fun", "glad", "gracious", "grateful", "glorious", "happy",
+        "honorable", "inspirational", "jolly", "joyful", "joyous", "lucky", "magnificent", "marvelous", "nice", "peaceful",
+        "pleasant", "pleasing", "proud", "splendid", "superb", "sunny", "thankful", "victorious", "virtuous", "wonderful", ":-)", ":)", ":-D", ":D", "=)", "☺"
+    ],
+    "romanticWords" : [
+        "adore", "adorable", "affectionate", "attractive", "beloved", "blessed", "breathtaking", "blessing", "blissful", "caring", "charming",
+        "compassionate", "considerate", "cute", "darling", "dearest", "dreamy", "engaged", "eye candy", "generous", "gorgeous", "handsome", "heart",
+        "heartfelt", "honey", "hot", "inspiring", "kind", "love", "loving", "lovable", "married", "my other half", "my better half", "my everything",
+        "partner", "passionate", "pretty", "respectful", "romantic", "soul mate", "sweetheart", "sensual", "steamy", "sweet", "tender", "thoughtful",
+        "trustworthy", "virtuous", "warm-hearted"
+    ],
+    "sadWords" : [
+        "alone", "anxious", "ashamed", "awful", "bad", "bored", "boring", "bothersome", "bummed", "burned", "chaotic", "cranky", "crap", "crappy",
+        "cried", "cruel", "crying", "depressed", "defeated", "devastated", "disappointed", "disappointing", "dislike", "discouraged", "dishonest",
+        "doomed", "dreadful", "dumped", "embarrassed", "evicted", "freaked out", "frustrated", "guilty", "heartbroken", "helpless", "hopeless",
+        "horrible", "horrified", "humiliated", "hurt", "inhumane", "insecure", "nervous", "offended", "oppressed", "overwhelmed", "pathetic",
+        "powerless", "poor", "resentful", "#rip", "robbed", "sad", "screwed", "sigh", "sorry", "sobbing", "stressed", "suicidal", "miserable",
+        "miss", "misunderstood", "unhappy", ":-(", ":(", "=(", ";("
+    ],
+    "angryWords" : [
+        "angered", "angry", "annoyed", "arg", "betrayed", "bitch", "bitter", "damn", "damned", "disgust", "disturbed", "enraged", "fml",
+        "frustrated", "furious", "fuming", "goddamn", "goddamned", "harassed", "hate", "hateful", "hell", "hostile", "ignorant", "insane", "insulted",
+        "irate", "irritable", "jealous", "livid", "mad", "outrage", "outraged", "racist", "rage", "raging", "rant", 
+        "seething", "ticked", "mad", "pissed", "fuck", "fucked", "fucking", "shit", "shitty", "stupid", "wretched", "wtf", "unacceptable"
+    ],
+    "afraidWords" : [
+        "afraid", "alarm", "alarming", "anarchy", "apocalypse", "chaos", "chilling", "concern", "concerned", "creeps", "devastation",
+        "distress", "doubt", "dread", "eerie", "end of the world", "fear", "fearsome", "frenzy", "fright", "frightening", "grim", "holocaust", "horror", "horrid",
+        "hysteria", "madness", "nervous", "nightmare", "on edge", "ominous", "oppression", "panic", "scare", "scared", "scary", "shock", "shocked",
+        "spine chilling", "spooky", "terrifying", "terror", "trepidation", "troubling", "turmoil", "unrest", "war", "worried", "worry", "worrisome"
+    ]
+}
