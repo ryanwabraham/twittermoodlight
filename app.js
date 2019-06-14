@@ -32,7 +32,7 @@ app.listen(9000, function(){
 // and a condition in determineMood()
 
 let tweetCount = 0;
-let currentMood = '';
+let currentMood = 'happy';
 let start = new Date();
 let tps = 0; // tweets per second
 let now;
@@ -51,13 +51,17 @@ const determineMood = (tweet) => {
 
     if (wordBank.happyWords.some(containsWord)) {
         emotionMap.happy += 1;
-    } else if (wordBank.romanticWords.some(containsWord)) {
+    }
+    if (wordBank.romanticWords.some(containsWord)) {
         emotionMap.romantic += 1;
-    } else if (wordBank.sadWords.some(containsWord)) {
+    }
+    if (wordBank.sadWords.some(containsWord)) {
         emotionMap.sad += 1;
-    } else if (wordBank.angryWords.some(containsWord)) {
+    }
+    if (wordBank.angryWords.some(containsWord)) {
         emotionMap.angry += 1;
-    } else if (wordBank.afraidWords.some(containsWord)) {
+    }
+    if (wordBank.afraidWords.some(containsWord)) {
         emotionMap.afraid += 1;
     }
 }
@@ -80,7 +84,7 @@ const changeMood = (emotion) => {
 // calculate tweets per second every 5s
 setInterval(() => {
     now = new Date();
-    const newTps = parseInt(1000 * (tweetCount / (now - start)), 10);
+    const newTps = parseInt((1000 * tweetCount) / (now - start), 10);
     // only alert clients if there is a change
     if (newTps !== tps) {
         io.sockets.emit('tps', newTps);
@@ -88,7 +92,7 @@ setInterval(() => {
     }
 }, 5000);
 
-// check for mood change every 30s
+// check for mood change every 20s
 setInterval(() => {
     const newMood = Object.keys(emotionMap).reduce((a, b) => {
         return emotionMap[a] > emotionMap[b] ? a : b;
@@ -99,7 +103,7 @@ setInterval(() => {
         currentMood = newMood;
     }
     resetEmotionMap();
-}, 30000);
+}, 20000);
 
 // listen for stream connection
 stream.on('connect', () => {
@@ -116,18 +120,12 @@ stream.on('tweet', (tweet) => {
 
 // listen for errors
 stream.on('error', (err) => {
-    console.log('error!', err);
+    console.log(err);
 });
 
 // listen for incoming connections from clients
 io.on('connection', (socket) => {
-    console.log("User Connected");
     // send new clients current mood and tps
     socket.emit('moodChange', currentMood);
     io.sockets.emit('tps', tps);
-
-    // when the client disconnects...
-    socket.on('disconnect', function() {
-        console.log("User Disconnected");
-    });
 });

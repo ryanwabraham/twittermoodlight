@@ -52,8 +52,6 @@ window.addEventListener('keyup', function(e){ if (e.keyCode == 27) toggleMenu();
 // socket event listeners
 
 socket.on('moodChange', function(emotion) {
-    if (!emotion) emotion = 'happy';
-
     main.className = "";
     main.classList.add(emotion);
     moodDisplay.className = "";
