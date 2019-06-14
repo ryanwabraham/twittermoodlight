@@ -32,10 +32,10 @@ function changeFavicon(emotion) {
     if (!favicon) {
         favicon = document.createElement('link');
         favicon.setAttribute('rel', 'shortcut icon');
+        favicon.setAttribute('type', 'image/x-icon');
         head.appendChild(favicon);
     }
 
-    favicon.setAttribute('type', 'image/x-icon');
     favicon.setAttribute('href', 'img/' + emotion + '.ico');
 }
 
