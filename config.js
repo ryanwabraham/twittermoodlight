@@ -1,4 +1,4 @@
-//twitter api config
+// twitter api config
 
 module.exports = {
   consumer_key: 'rkHN4JxCkEv1AvLA3m7RPIT98',

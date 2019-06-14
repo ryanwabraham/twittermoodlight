@@ -1,4 +1,4 @@
-//including libraries and api config
+// including libraries and api config
 var app = require('http').createServer(handler),
     io = require('socket.io').listen(app),
     fs = require('fs'),
@@ -6,15 +6,15 @@ var app = require('http').createServer(handler),
     config = require('./config'),
     wordBank = require('./public/js/wordbank.json'),
     endpoint = 'statuses/sample',
-    static = require('node-static'), //for serving files
+    static = require('node-static'), // for serving files
     tweetCount = 0,
     currentMood = '',
     now, start = new Date(),
-    tps = 0; //tweets per second
+    tps = 0; // tweets per second
 
-//to add more emotions, insert another key in wordbank.json
-//add another key to emtion tally
-//and a condition in determineMood()
+// to add more emotions, insert another key in wordbank.json
+// add another key to emtion tally
+// and a condition in determineMood()
 
 var emotionTally = {
     happy: 0,
@@ -24,33 +24,33 @@ var emotionTally = {
     afraid: 0
 }
 
-//this will make all the files in the public folder accessible from the web
+// this will make all the files in the public folder accessible from the web
 var fileServer = new static.Server('./public');
 
-//if the URL of the socket server is opened in a browser
+// if the URL of the socket server is opened in a browser
 function handler (request, response) {
     request.addListener('end', function () {
         fileServer.serve(request, response);
     }).resume();
 }
 
-//this is the port for our web server
+// this is the port for our web server
 app.listen(9000, function(){
     console.log('Listening on port 9000...');
 });
 
-//instantiate twitter client
+// instantiate twitter client
 var twitter = new twit(config);
 
-//subscribe to the stream of tweets from desired endpoint
+// subscribe to the stream of tweets from desired endpoint
 var stream = twitter.stream(endpoint);
 
-//listen for stream connection
+// listen for stream connection
 stream.on('connect', (params) => {
     console.log('Streaming from the Twitter API...');
 });
 
-//listen for tweets
+// listen for tweets
 stream.on('tweet', (tweet) => {
     tweetCount++;
     if (tweet.lang === 'en') {
@@ -60,12 +60,12 @@ stream.on('tweet', (tweet) => {
     }
 });
 
-//listen for errors
+// listen for errors
 stream.on('error', (err) => {
     console.log('error!', err);
 });
 
-//determine mood
+// determine mood
 function determineMood(tweet) {
     if (wordBank.happyWords.some((v) => { return tweet.text.toLowerCase().indexOf(v) !== -1; })) {
         emotionTally.happy++;
@@ -82,7 +82,7 @@ function determineMood(tweet) {
     }
 }
 
-//reset emotion tally
+// reset emotion tally
 function resetEmotionTally() {
     emotionTally = {
         happy: 0,
@@ -93,28 +93,28 @@ function resetEmotionTally() {
     }
 }
 
-//alert clients of mood change
+// alert clients of mood change
 function changeMood(emotion) {
-    //console.log('mood change!');
+    // console.log('mood change!');
     io.sockets.emit('moodChange', emotion);
 }
 
-//calculate tweets per second
+// calculate tweets per second
 setInterval(function() {
     now = new Date();
     newTps = parseInt(1000 * tweetCount / (now - start), 10);
-    //only alert clients if there is a change
+    // only alert clients if there is a change
     if (newTps !== tps) {
         io.sockets.emit('tps', newTps);
         tps = newTps;
     }
 }, 1000);
 
-//check for mood change
+// check for mood change
 setInterval(function() {
-    //console.log(Object.keys(emotionTally).map(function ( key ) { return emotionTally[key]; }));
+    // console.log(Object.keys(emotionTally).map(function ( key ) { return emotionTally[key]; }));
     var newMood = Object.keys(emotionTally).reduce((a, b) => { return emotionTally[a] > emotionTally[b] ? a : b });
-    //only alert clients if there is a change
+    // only alert clients if there is a change
     if (newMood !== currentMood) {
         changeMood(newMood);
         currentMood = newMood;
@@ -122,14 +122,14 @@ setInterval(function() {
     resetEmotionTally();
 }, 30000)
 
-//listen for incoming connections from clients
+// listen for incoming connections from clients
 io.on('connection', (socket) => {
     console.log("User Connected");
-    //send new clients current mood and tps
+    // send new clients current mood and tps
     socket.emit('moodChange', currentMood);
     io.sockets.emit('tps', tps);
 
-    //when the client disconnects...
+    // when the client disconnects...
     socket.on('disconnect', function() {
         console.log("User Disconnected");
     });
