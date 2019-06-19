@@ -1,4 +1,3 @@
-// including libraries and api config
 const app = require('http').createServer(handler);
 const io = require('socket.io').listen(app);
 const fs = require('fs');
@@ -7,12 +6,14 @@ const config = require('./config');
 const wordBank = require('./public/js/wordbank.json');
 const endpoint = 'statuses/sample';
 const nodeStatic = require('node-static'); // for serving files
-// this will make the public folder accessible from the web
 const fileServer = new nodeStatic.Server('./public');
-// instantiate twitter client
 const twitter = new twit(config);
-// subscribe to the stream of tweets from desired endpoint
 const stream = twitter.stream(endpoint);
+
+// this is the port for our web server
+app.listen(9000, function(){
+    console.log('Listening on port 9000...');
+});
 
 // fulfill client requests
 function handler (request, response) {
@@ -21,14 +22,9 @@ function handler (request, response) {
     }).resume();
 }
 
-// this is the port for our web server
-app.listen(9000, function(){
-    console.log('Listening on port 9000...');
-});
-
-// app variables
-// to add more emotions, insert another key in wordbank.json
-// add another key to emtion tally
+// to add more emotions
+// insert another key in wordbank.json
+// add another key to emotion tally
 // and a condition in determineMood()
 
 let tweetCount = 0;
@@ -64,7 +60,7 @@ const determineMood = (tweet) => {
     if (wordBank.afraidWords.some(containsWord)) {
         emotionMap.afraid += 1;
     }
-}
+};
 
 const resetEmotionMap = () => {
     emotionMap = {
@@ -74,12 +70,12 @@ const resetEmotionMap = () => {
         angry: 0,
         afraid: 0
     }
-}
+};
 
 // alert clients of mood change
 const changeMood = (emotion) => {
     io.sockets.emit('moodChange', emotion);
-}
+};
 
 // calculate tweets per second every 5s
 setInterval(() => {
