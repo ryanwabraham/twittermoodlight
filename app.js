@@ -33,42 +33,37 @@ let start = new Date();
 let tps = 0; // tweets per second
 let now;
 let emotionMap = {
-    happy: 0,
-    romantic: 0,
-    sad: 0,
-    angry: 0,
-    afraid: 0
-};
-
-const determineMood = (tweet) => {
-    const containsWord = (word) => {
-        return tweet.text.toLowerCase().indexOf(word) !== -1;
-    }
-
-    if (wordBank.happyWords.some(containsWord)) {
-        emotionMap.happy += 1;
-    }
-    if (wordBank.romanticWords.some(containsWord)) {
-        emotionMap.romantic += 1;
-    }
-    if (wordBank.sadWords.some(containsWord)) {
-        emotionMap.sad += 1;
-    }
-    if (wordBank.angryWords.some(containsWord)) {
-        emotionMap.angry += 1;
-    }
-    if (wordBank.afraidWords.some(containsWord)) {
-        emotionMap.afraid += 1;
-    }
+    "happyWords": 0,
+    "romanticWords": 0,
+    "sadWords": 0,
+    "angryWords": 0,
+    "afraidWords": 0
 };
 
 const resetEmotionMap = () => {
     emotionMap = {
-        happy: 0,
-        romantic: 0,
-        sad: 0,
-        angry: 0,
-        afraid: 0
+        "happyWords": 0,
+        "romanticWords": 0,
+        "sadWords": 0,
+        "angryWords": 0,
+        "afraidWords": 0
+    };
+};
+
+const countMatches = (wordSet, tweet) => {
+    const words = tweet.text.split(' ');
+    let matchCount = 0;
+
+    words.forEach(word => {
+        if (wordSet.includes(word)) matchCount += 1;
+    });
+
+    return matchCount;
+};
+
+const determineMood = (tweet) => {
+    for (let emotion in wordBank) {
+        emotionMap[emotion] += countMatches(wordBank[emotion], tweet);
     }
 };
 
@@ -88,18 +83,20 @@ setInterval(() => {
     }
 }, 5000);
 
-// check for mood change every 20s
+// check for mood change every 10s
 setInterval(() => {
-    const newMood = Object.keys(emotionMap).reduce((a, b) => {
+    let newMood = Object.keys(emotionMap).reduce((a, b) => {
         return emotionMap[a] > emotionMap[b] ? a : b;
     });
+    newMood = newMood.replace('Words','');
+
     // only alert clients if there is a change
     if (newMood !== currentMood) {
         changeMood(newMood);
         currentMood = newMood;
     }
     resetEmotionMap();
-}, 20000);
+}, 10000);
 
 // listen for stream connection
 stream.on('connect', () => {
